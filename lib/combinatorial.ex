@@ -20,9 +20,9 @@ defmodule Combinatorial do
   @spec choose(pos_integer, pos_integer) :: pos_integer
   def choose(n, k) when n > 0 do
     1..n
-      |> Enum.to_list
-      |> choose(k)
-      |> length
+    |> Enum.to_list
+    |> choose(k)
+    |> length
   end
 
   @spec permute(list) :: [list]

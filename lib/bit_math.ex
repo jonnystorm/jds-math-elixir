@@ -26,13 +26,13 @@ defmodule BitMath do
   @spec choose_bits(pos_integer, pos_integer) :: [non_neg_integer]
   def choose_bits(n, k) do
     0..(n - 1)
-      |> Enum.to_list
-      |> Combinatorial.choose(k)
-      |> Enum.map(fn exponents ->
-        Enum.reduce(exponents, 0, fn(exponent, acc) ->
-          pow_2(exponent) + acc
-        end)
+    |> Enum.to_list
+    |> Combinatorial.choose(k)
+    |> Enum.map(fn exponents ->
+      Enum.reduce(exponents, 0, fn(exponent, acc) ->
+        pow_2(exponent) + acc
       end)
+    end)
   end
 
   defp _ones({0, acc}) do
@@ -72,19 +72,19 @@ defmodule BitMath do
   @spec hamming_sphere(integer, pos_integer, pos_integer) :: list
   def hamming_sphere(center, radius, dimensions) do
     1..radius
-      |> Enum.to_list
-      |> Enum.reduce([center], fn(r, acc) ->
-        acc ++ hamming_shell(center, r, dimensions)
-      end)
+    |> Enum.to_list
+    |> Enum.reduce([center], fn(r, acc) ->
+      acc ++ hamming_shell(center, r, dimensions)
+    end)
   end
 
   @spec hamming_face?(integer, integer, integer) :: boolean
   def hamming_face?(a, b, c) do
     [a, b, c]
-      |> Combinatorial.choose(2)
-      |> Enum.map(fn [p, q] -> hamming_distance(p, q) end)
-      |> Combinatorial.permute
-      |> Enum.member?([1, 1, 2])
+    |> Combinatorial.choose(2)
+    |> Enum.map(fn [p, q] -> hamming_distance(p, q) end)
+    |> Combinatorial.permute
+    |> Enum.member?([1, 1, 2])
   end
 
   @spec hamming_face(integer, integer, integer) :: [integer] | {:error, String.t}
