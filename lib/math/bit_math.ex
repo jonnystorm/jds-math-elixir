@@ -3,12 +3,12 @@
 # terms of the Do What The Fuck You Want To Public License, Version 2,
 # as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
-defmodule BitMath do
+defmodule Math.Binary do
   use Bitwise
 
   @spec pow_2(non_neg_integer) :: pos_integer
   def pow_2(exponent) do
-    2 |> :math.pow(exponent) |> trunc
+    :math.pow(2, exponent) |> trunc
   end
 
   defp _bits(num, {exponent, bit_value}) when bit_value > num do
@@ -59,13 +59,13 @@ defmodule BitMath do
 
   @spec hamming_distance(integer, integer) :: non_neg_integer
   def hamming_distance(p, q) do
-    p |> bxor(q) |> ones
+    bxor(p, q) |> ones
   end
 
   @spec hamming_shell(integer, pos_integer, pos_integer) :: [non_neg_integer]
   def hamming_shell(center, radius, dimensions) do
     for choose <- choose_bits(dimensions, radius) do
-      center |> bxor(choose)
+      bxor(center, choose)
     end
   end
 
@@ -101,9 +101,12 @@ defmodule BitMath do
   def hamming_face(a, d) do
     case hamming_distance(a, d) do
       h when h == 2 ->
-        diff = bxor(a, d)
-        [low_bit|_tail] = [band(diff, diff >>> 1), band(diff, a), band(diff, d)]
-          |> Enum.filter(&(&1 != 0))
+        difference = bxor(a, d)
+
+        [low_bit|_tail] = [
+          band(difference, difference >>> 1),
+          band(difference, a), band(difference, d)
+        ] |> Enum.filter(&(&1 != 0))
 
         [a, bxor(low_bit, a), bxor(low_bit, d), d]
       h when h < 2 ->
@@ -115,7 +118,7 @@ defmodule BitMath do
 
   @spec hamming_distance_histogram([integer], integer) :: %{non_neg_integer => [integer]}
   def hamming_distance_histogram(p_list, q \\ 0) do
-    p_list |> Enum.group_by(&(hamming_distance q, &1))
+    Enum.group_by(p_list, &(hamming_distance q, &1))
   end
 end
 

@@ -3,7 +3,12 @@
 # terms of the Do What The Fuck You Want To Public License, Version 2,
 # as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
-defmodule Combinatorial do
+defmodule Math.Combinatorial do
+  @spec cartesian_product(list, list) :: [tuple]
+  def cartesian_product(coll1, coll2) do
+    for item1 <- coll1, item2 <- coll2, do: {item1, item2}
+  end
+
   @spec choose(list, pos_integer) :: list
   def choose([], _k) do
     []
