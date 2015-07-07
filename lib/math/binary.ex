@@ -27,7 +27,7 @@ defmodule Math.Binary do
   def choose_bits(n, k) do
     0..(n - 1)
     |> Enum.to_list
-    |> Combinatorial.choose(k)
+    |> Math.Combinatorial.choose(k)
     |> Enum.map(fn exponents ->
       Enum.reduce(exponents, 0, fn(exponent, acc) ->
         pow_2(exponent) + acc
@@ -81,9 +81,9 @@ defmodule Math.Binary do
   @spec hamming_face?(integer, integer, integer) :: boolean
   def hamming_face?(a, b, c) do
     [a, b, c]
-    |> Combinatorial.choose(2)
+    |> Math.Combinatorial.choose(2)
     |> Enum.map(fn [p, q] -> hamming_distance(p, q) end)
-    |> Combinatorial.permute
+    |> Math.Combinatorial.permute
     |> Enum.member?([1, 1, 2])
   end
 
