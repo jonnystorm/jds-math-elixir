@@ -6,8 +6,17 @@
 defmodule Math.Binary do
   use Bitwise
 
-  @spec pow_2(non_neg_integer) :: pos_integer
-  def pow_2(exponent) do
+  @spec mod(integer, non_neg_integer) :: non_neg_integer
+  @spec mod(integer, neg_integer) :: neg_integer | 0
+  def mod(_, 0) do
+    raise ArgumentError, message: "Cannot accept zero modulus"
+  end
+  def mod(integer, modulus) do
+    trunc(integer - modulus * Float.floor(integer / modulus))
+  end
+
+  @spec pow2(integer) :: pos_integer
+  def pow2(exponent) do
     :math.pow(2, exponent) |> trunc
   end
 
@@ -30,7 +39,7 @@ defmodule Math.Binary do
     |> Math.Combinatorial.choose(k)
     |> Enum.map(fn exponents ->
       Enum.reduce(exponents, 0, fn(exponent, acc) ->
-        pow_2(exponent) + acc
+        pow2(exponent) + acc
       end)
     end)
   end
