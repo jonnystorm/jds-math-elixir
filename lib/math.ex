@@ -18,7 +18,7 @@ defmodule Math do
     _expand_decimal_to_positional_elements(new_decimal, base, [digit|acc])
   end
 
-  def expand_decimal_to_positional_elements(decimal, 0) do
+  def expand_decimal_to_positional_elements(_, 0) do
     raise ArgumentError, message: "Cannot accept zero base"
   end
   def expand_decimal_to_positional_elements(decimal, 1) do
@@ -38,7 +38,7 @@ defmodule Math do
     _collapse_positional_elements_to_decimal(tail, base, value + acc)
   end
 
-  def collapse_positional_elements_to_decimal(elements, 0) do
+  def collapse_positional_elements_to_decimal(_, 0) do
     raise ArgumentError, message: "Cannot accept zero base"
   end
   def collapse_positional_elements_to_decimal(elements, 1) do
