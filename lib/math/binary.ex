@@ -118,7 +118,7 @@ defmodule Math.Binary do
 
   @spec hamming_distance_histogram([integer], integer) :: %{non_neg_integer => [integer]}
   def hamming_distance_histogram(p_list, q \\ 0) do
-    Enum.group_by(p_list, &(hamming_distance q, &1))
+    Enum.group_by(p_list, &hamming_distance(q, &1))
   end
 end
 

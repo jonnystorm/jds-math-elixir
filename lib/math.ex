@@ -8,30 +8,42 @@ defmodule Math do
     trunc(integer - modulus * Float.floor(integer / modulus))
   end
 
-  def _expand_decimal_to_positional_elements(0, _base, acc) do
+  defp _expand_decimal_to_positional_elements(0, _base, acc) do
     acc
   end
-  def _expand_decimal_to_positional_elements(decimal, base, acc) do
+  defp _expand_decimal_to_positional_elements(decimal, base, acc) do
     digit = rem(decimal, base)
     new_decimal = div(decimal - digit, base)
 
     _expand_decimal_to_positional_elements(new_decimal, base, [digit|acc])
   end
 
+  def expand_decimal_to_positional_elements(decimal, 0) do
+    raise ArgumentError, message: "Cannot accept zero base"
+  end
+  def expand_decimal_to_positional_elements(decimal, 1) do
+    List.duplicate(1, decimal)
+  end
   def expand_decimal_to_positional_elements(decimal, base) do
     _expand_decimal_to_positional_elements(decimal, base, [])
   end
 
-  def _collapse_positional_elements_to_decimal([], _base, acc) do
+  defp _collapse_positional_elements_to_decimal([], _base, acc) do
     acc
   end
-  def _collapse_positional_elements_to_decimal([head | tail], base, acc) do
+  defp _collapse_positional_elements_to_decimal([head | tail], base, acc) do
     position = length tail
     value = trunc(head * :math.pow(base, position))
 
     _collapse_positional_elements_to_decimal(tail, base, value + acc)
   end
 
+  def collapse_positional_elements_to_decimal(elements, 0) do
+    raise ArgumentError, message: "Cannot accept zero base"
+  end
+  def collapse_positional_elements_to_decimal(elements, 1) do
+    length(elements)
+  end
   def collapse_positional_elements_to_decimal(elements, base) do
     _collapse_positional_elements_to_decimal(elements, base, 0)
   end

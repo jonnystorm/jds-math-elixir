@@ -28,6 +28,9 @@ defmodule MathTest do
     assert mod(1, 2) == 1
   end
 
+  test "raises error when expanding with zero base" do
+    assert_raise ArgumentError, fn -> expand_decimal_to_positional_elements(1, 0) end
+  end
   test "expands 1020 to [1, 0, 2, 0]" do
     assert expand_decimal_to_positional_elements(1020, 10) == [1, 0, 2, 0]
   end
@@ -35,6 +38,9 @@ defmodule MathTest do
     assert expand_decimal_to_positional_elements(0b1010, 2) == [1, 0, 1, 0]
   end
 
+  test "raises error when collapsing with zero base" do
+    assert_raise ArgumentError, fn -> collapse_positional_elements_to_decimal([1], 0) end
+  end
   test "collapses [1, 0, 2, 0] to 1020" do
     assert collapse_positional_elements_to_decimal([1, 0, 2, 0], 10) == 1020
   end
