@@ -1,7 +1,7 @@
-defmodule Math.BinaryTest do
+defmodule MathTest do
   use ExUnit.Case, async: true
 
-  import Math.Binary
+  import Math
 
   test "mod(x, 0) raises error" do
     assert_raise ArgumentError, fn -> mod(1, 0) end
@@ -26,5 +26,12 @@ defmodule Math.BinaryTest do
   end
   test "mod(x, modulus) returns x for a modulus greater than x" do
     assert mod(1, 2) == 1
+  end
+
+  test "expands 1020 to [1, 0, 2, 0]" do
+    assert expand_decimal_to_positional_elements(1020) == [1, 0, 2, 0]
+  end
+  test "expands 0b1010 to [1, 0, 1, 0]" do
+    assert expand_decimal_to_positional_elements(0b1010, 2) == [1, 0, 1, 0]
   end
 end

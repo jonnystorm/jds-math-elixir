@@ -7,4 +7,17 @@ defmodule Math do
   def mod(integer, modulus) do
     trunc(integer - modulus * Float.floor(integer / modulus))
   end
+
+  def _expand_decimal_to_positional_elements(0, _base, acc) do
+    acc
+  end
+  def _expand_decimal_to_positional_elements(decimal, base, acc) do
+    digit = rem(decimal, base)
+    new_decimal = div(decimal - digit, base)
+
+    _expand_decimal_to_positional_elements(new_decimal, base, [digit|acc])
+  end
+  def expand_decimal_to_positional_elements(decimal, base \\ 10) do
+    _expand_decimal_to_positional_elements(decimal, base, [])
+  end
 end
