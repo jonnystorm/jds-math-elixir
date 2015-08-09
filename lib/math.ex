@@ -8,6 +8,9 @@ defmodule Math do
     trunc(integer - modulus * Float.floor(integer / modulus))
   end
 
+  defp _expand_decimal_to_positional_elements(0, _base, []) do
+    [0]
+  end
   defp _expand_decimal_to_positional_elements(0, _base, acc) do
     acc
   end
@@ -48,8 +51,19 @@ defmodule Math do
     _collapse_positional_elements_to_decimal(elements, base, 0)
   end
 
+  defp pad_list_head_with_zeros(list, size) when length(list) < size do
+    pad = List.duplicate(0, size - length(list))
+
+    List.flatten [pad | list]
+  end
   def expand(decimal, base \\ 10) do
     expand_decimal_to_positional_elements(decimal, base)
+  end
+
+  def expand(decimal, base, dimension) do
+    decimal
+    |> expand_decimal_to_positional_elements(base)
+    |> pad_list_head_with_zeros(dimension)
   end
 
   def collapse(elements, base \\ 10) do
