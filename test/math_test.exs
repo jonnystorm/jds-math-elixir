@@ -43,6 +43,12 @@ defmodule MathTest do
   test "expands 0 to [0, 0, 0, 0] when dimension is 4" do
     assert expand(0, 10, 4) == [0, 0, 0, 0]
   end
+  test "expands 0b1000 to [1, 0, 0, 0] when dimension is 4" do
+    assert expand(0b1000, 2, 4) == [1, 0, 0, 0]
+  end
+  test "expanding 0b1000 with dimension 3 raises ArgumentError" do
+    assert_raise ArgumentError, fn -> expand 0b1000, 2, 3 end
+  end
 
   test "raises error when collapsing with zero base" do
     assert_raise ArgumentError, fn -> collapse([1], 0) end

@@ -56,14 +56,23 @@ defmodule Math do
 
     List.flatten [pad | list]
   end
+  defp pad_list_head_with_zeros(list, size) when length(list) == size do
+    list
+  end
+
   def expand(decimal, base \\ 10) do
     expand_decimal_to_positional_elements(decimal, base)
   end
 
   def expand(decimal, base, dimension) do
-    decimal
-    |> expand_decimal_to_positional_elements(base)
-    |> pad_list_head_with_zeros(dimension)
+    try do
+      decimal
+      |> expand_decimal_to_positional_elements(base)
+      |> pad_list_head_with_zeros(dimension)
+    rescue
+      _ in FunctionClauseError ->
+        raise ArgumentError, message: "Decimal expansion exceeds given dimension"
+    end
   end
 
   def collapse(elements, base \\ 10) do
