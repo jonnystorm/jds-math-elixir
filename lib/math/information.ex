@@ -4,7 +4,7 @@
 # as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
 
 defmodule Math.Information do
-  defp log_2(num) do
+  def log_2(num) do
     :math.log(num) / :math.log(2)
   end
 

@@ -1,9 +1,20 @@
 defmodule Math do
-  @spec mod(integer, non_neg_integer) :: non_neg_integer
-  @spec mod(integer, neg_integer) :: neg_integer | 0
+  @doc """
+  This implementation of mod uses so-called F-division. From 'Division and
+    Modulus for Computer Scientists': "F-division floors the quotient and 
+    effectively rounds toward negative infinity." This has the nice property
+    that the sign of the result always matches that of the modulus.
+  """
+  @spec mod(0, pos_integer) :: 0
+  @spec mod(0, neg_integer) :: 0
+  @spec mod(integer, pos_integer) :: pos_integer
+  @spec mod(integer, neg_integer) :: neg_integer
   def mod(_, 0) do
     raise ArgumentError, message: "Cannot accept zero modulus"
   end
+  def mod(0, _),              do: 0
+  def mod(x, x),              do: 0
+  def mod(x, y) when x == -y, do: 0
   def mod(integer, modulus) do
     trunc(integer - modulus * Float.floor(integer / modulus))
   end
