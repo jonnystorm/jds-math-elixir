@@ -8,7 +8,7 @@ defmodule Math.Binary do
 
   @spec pow2(integer) :: pos_integer
   def pow2(exponent) do
-    :math.pow(2, exponent) |> trunc
+    Math.pow 2, exponent
   end
 
   defp _bits(num, {exponent, bit_value}) when bit_value > num do

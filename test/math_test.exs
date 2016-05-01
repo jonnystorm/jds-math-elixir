@@ -28,6 +28,34 @@ defmodule MathTest do
     assert mod(1, 2) == 1
   end
 
+  test "pow(0, 0) returns 1" do
+    assert pow(0, 0) == 1
+  end
+  test "pow(x, 0) returns 1" do
+    assert pow(42, 0) == 1
+  end
+  test "pow(-x, 0) returns 1" do
+    assert pow(-42, 0) == 1
+  end
+  test "pow(0, x) returns 0" do
+    assert pow(0, 42) == 0
+  end
+  test "pow(x, -y) raises error" do
+    assert_raise ArgumentError, fn -> pow(2, -42) end
+  end
+  test "pow(0, -y) raises error" do
+    assert_raise ArgumentError, fn -> pow(0, -42) end
+  end
+  test "pow(-x, -y) raises error" do
+    assert_raise ArgumentError, fn -> pow(-2, -42) end
+  end
+  test "pow(x, y) raises error when x is a float" do
+    assert_raise FunctionClauseError, fn -> pow(2.0, 42) end
+  end
+  test "pow(x, y) raises error when y is a float" do
+    assert_raise FunctionClauseError, fn -> pow(2, 42.0) end
+  end
+
   test "raises error when expanding with zero base" do
     assert_raise ArgumentError, fn -> expand(1, 0) end
   end
