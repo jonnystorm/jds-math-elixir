@@ -5,10 +5,11 @@
 defmodule Math do
   use Bitwise
 
-  @spec mod(0, pos_integer) :: 0
-  @spec mod(0, neg_integer) :: 0
-  @spec mod(integer, pos_integer) :: pos_integer
-  @spec mod(integer, neg_integer) :: neg_integer
+  @spec mod(0, integer) :: 0
+  @spec mod(pos_integer, pos_integer) :: pos_integer
+  @spec mod(neg_integer, pos_integer) :: pos_integer
+  @spec mod(pos_integer, neg_integer) :: neg_integer
+  @spec mod(neg_integer, neg_integer) :: neg_integer
   def mod(_, 0) do
     raise ArgumentError, message: "Cannot accept zero modulus"
   end
@@ -23,9 +24,9 @@ defmodule Math do
   def mod(integer, modulus) when modulus < 0,
     do: -1 * rem(integer, modulus)
 
-  @spec positive_mod(0, pos_integer) :: 0
-  @spec positive_mod(0, neg_integer) :: 0
-  @spec positive_mod(integer, integer) :: pos_integer
+  @spec positive_mod(0, integer) :: 0
+  @spec positive_mod(pos_integer, integer) :: pos_integer
+  @spec positive_mod(neg_integer, integer) :: pos_integer
   def positive_mod(_, 0) do
     raise ArgumentError, message: "Cannot accept zero modulus"
   end
@@ -46,7 +47,6 @@ defmodule Math do
   defp _pow(base, exponent, acc) when rem(exponent, 2) == 1,
     do: _pow(base * base, bsr(exponent, 1), acc * base)
 
-  @spec pow(0, 0) :: 1
   @spec pow(number, 0) :: 1
   @spec pow(0, pos_integer) :: 0
   @spec pow(pos_integer, pos_integer) :: pos_integer
