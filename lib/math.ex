@@ -1,7 +1,6 @@
-# Copyright © 2015 Jonathan Storm <the.jonathan.storm@gmail.com>
-# This work is free. You can redistribute it and/or modify it under the
-# terms of the Do What The Fuck You Want To Public License, Version 2,
-# as published by Sam Hocevar. See the COPYING.WTFPL file for more details.
+# This Source Code Form is subject to the terms of the Mozilla Public
+# License, v. 2.0. If a copy of the MPL was not distributed with this
+# file, You can obtain one at http://mozilla.org/MPL/2.0/.
 
 defmodule Math do
   use Bitwise
@@ -13,25 +12,39 @@ defmodule Math do
   def mod(_, 0) do
     raise ArgumentError, message: "Cannot accept zero modulus"
   end
+
   def mod(0, _),              do: 0
   def mod(x, x),              do: 0
   def mod(x, y) when x == -y, do: 0
-  def mod(integer, modulus) when modulus > 0 do
-    rem integer, modulus
-  end
-  def mod(integer, modulus) when modulus < 0 do
-    -1 * rem(integer, modulus)
+
+  def mod(integer, modulus) when modulus > 0,
+    do: rem(integer, modulus)
+
+  def mod(integer, modulus) when modulus < 0,
+    do: -1 * rem(integer, modulus)
+
+  @spec positive_mod(0, pos_integer) :: 0
+  @spec positive_mod(0, neg_integer) :: 0
+  @spec positive_mod(integer, integer) :: pos_integer
+  def positive_mod(_, 0) do
+    raise ArgumentError, message: "Cannot accept zero modulus"
   end
 
-  defp _pow(_base, 0, acc) do
-    acc
-  end
-  defp _pow(base, exponent, acc) when rem(exponent, 2) == 0 do
-    _pow base * base, bsr(exponent, 1), acc
-  end
-  defp _pow(base, exponent, acc) when rem(exponent, 2) == 1 do
-    _pow base * base, bsr(exponent, 1), acc * base
-  end
+  def positive_mod(0, _),              do: 0
+  def positive_mod(x, x),              do: 0
+  def positive_mod(x, y) when x == -y, do: 0
+
+  def positive_mod(integer, modulus),
+    do: rem(rem(integer, modulus) + modulus, modulus)
+
+  defp _pow(_base, 0, acc),
+    do: acc
+
+  defp _pow(base, exponent, acc) when rem(exponent, 2) == 0,
+    do: _pow(base * base, bsr(exponent, 1), acc)
+
+  defp _pow(base, exponent, acc) when rem(exponent, 2) == 1,
+    do: _pow(base * base, bsr(exponent, 1), acc * base)
 
   @spec pow(0, 0) :: 1
   @spec pow(number, 0) :: 1

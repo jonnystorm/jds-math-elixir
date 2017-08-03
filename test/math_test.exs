@@ -4,41 +4,134 @@ defmodule MathTest do
   import Math
 
   test "mod(x, 0) raises error" do
-    assert_raise ArgumentError, fn -> mod(1, 0) end
+    x = 1
+
+    assert_raise ArgumentError, fn -> mod(x, 0) end
   end
-  test "mod(0, modulus) returns 0" do
-    assert mod(0, 2) == 0
+  test "mod(0, m) = 0" do
+    m = 2
+
+    assert mod(0, m) == 0
   end
-  test "mod(x, 1) returns 0" do
-    assert mod(2, 1) == 0
+  test "mod(x, 1) = 0" do
+    x = 2
+
+    assert mod(x, 1) == 0
   end
-  test "mod(x, -1) returns 0" do
-    assert mod(2, -1) == 0
+  test "mod(x, -1) = 0" do
+    x = 2
+
+    assert mod(x, -1) == 0
   end
-  test "mod(x, x) returns 0" do
-    assert mod(2, 2) == 0
+  test "mod(x, x) = 0" do
+    x = 2
+
+    assert mod(x, x) == 0
   end
-  test "mod(-x, x) returns 0" do
-    assert mod(-2, 2) == 0
+  test "mod(-x, x) = 0" do
+    x = 2
+
+    assert mod(-x, x) == 0
   end
-  test "mod(x, -x) returns 0" do
-    assert mod(2, -2) == 0
+  test "mod(x, -x) = 0" do
+    x = 2
+
+    assert mod(x, -x) == 0
   end
-  test "mod(x, modulus) returns x for a modulus greater than x" do
-    assert mod(1, 2) == 1
+  test "mod(x, m) = x when 0 < x < m" do
+    x = 1
+    m = 2
+
+    assert 0 < x
+    assert     x < m
+    assert mod(x, m) == x
+  end
+  test "-m < mod(x, m) < 0 when -m < x < 0" do
+    x = -1
+    m = 4
+
+    result = mod(x, m)
+
+    assert -m < x
+    assert      x < 0
+    assert -m < result
+    assert      result < 0
+    assert result == x
   end
 
-  test "pow(0, 0) returns 1" do
+  test "positive_mod(x, 0) raises error" do
+    x = 1
+
+    assert_raise ArgumentError, fn -> positive_mod(x, 0) end
+  end
+  test "positive_mod(0, m) = 0" do
+    m = 2
+
+    assert positive_mod(0, m) == 0
+  end
+  test "positive_mod(x, 1) = 0" do
+    x = 2
+
+    assert positive_mod(x, 1) == 0
+  end
+  test "positive_mod(x, -1) = 0" do
+    x = 2
+
+    assert positive_mod(x, -1) == 0
+  end
+  test "positive_mod(x, x) = 0" do
+    x = 2
+
+    assert positive_mod(x, x) == 0
+  end
+  test "positive_mod(-x, x) = 0" do
+    x = 2
+
+    assert positive_mod(-x, x) == 0
+  end
+  test "positive_mod(x, -x) = 0" do
+    x = 2
+
+    assert positive_mod(x, -x) == 0
+  end
+  test "positive_mod(x, m) = x when 0 < x < m" do
+    x = 1
+    m = 2
+
+    assert 0 < x
+    assert     x < m
+    assert positive_mod(x, m) == x
+  end
+  test "0 < positive_mod(x, m) < m when -m < x < 0" do
+    x = -1
+    m = 4
+
+    result = positive_mod(x, m)
+
+    assert -m < x
+    assert      x < 0
+    assert 0 < result
+    assert     result < m
+    assert result == 3
+  end
+
+  test "pow(0, 0) = 1" do
     assert pow(0, 0) == 1
   end
-  test "pow(x, 0) returns 1" do
-    assert pow(42, 0) == 1
+  test "pow(x, 0) = 1" do
+    x = 42
+
+    assert pow(x, 0) == 1
   end
-  test "pow(-x, 0) returns 1" do
-    assert pow(-42, 0) == 1
+  test "pow(-x, 0) = 1" do
+    x = 42
+
+    assert pow(-x, 0) == 1
   end
-  test "pow(0, x) returns 0" do
-    assert pow(0, 42) == 0
+  test "pow(0, x) = 0" do
+    x = 42
+
+    assert pow(0, x) == 0
   end
   test "pow(x, -y) raises error" do
     assert_raise ArgumentError, fn -> pow(2, -42) end
