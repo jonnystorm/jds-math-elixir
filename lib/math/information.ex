@@ -10,7 +10,7 @@ defmodule Math.Information do
   defp count_characters(binary) do
     binary
     |> :binary.bin_to_list
-    |> Enum.group_by(&(&1))
+    |> Enum.group_by(& &1)
     |> Enum.map(fn {key, list} ->
       {key, length(list)}
     end)
@@ -19,13 +19,13 @@ defmodule Math.Information do
   def shannon_entropy(binary) do
     binary
     |> count_characters
-    |> Enum.map(fn {char, count} ->
-      {char, count / byte_size binary}
+    |> Enum.map(fn {character, count} ->
+      {character, count / byte_size(binary)}
     end)
     |> Enum.map(fn {_, probability} ->
       probability * log_2(probability)
     end)
     |> Enum.sum
-    |> (fn s -> -s end).()
+    |> (fn sum -> -sum end).()
   end
 end
