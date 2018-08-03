@@ -161,9 +161,9 @@ defmodule Math do
   defp pad_list_head_with_zeros(list, size)
       when length(list) < size
   do
-    pad = List.duplicate(0, size - length(list))
-
-    List.flatten [pad|list]
+    0
+    |> List.duplicate(size - length(list))
+    |> Enum.concat(list)
   end
 
   defp pad_list_head_with_zeros(list, size)

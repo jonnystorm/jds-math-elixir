@@ -163,4 +163,23 @@ defmodule Math.Binary do
 
   def tree_distance_histogram(p_list, q \\ 0),
     do: Enum.group_by(p_list, &tree_distance(q, &1))
+
+  @spec bytes_to_coordinate(binary)
+    :: {non_neg_integer, non_neg_integer}
+  def bytes_to_coordinate(bytes)
+      when is_binary bytes
+  do
+    number_of_bits = bit_size bytes
+
+    <<int::size(number_of_bits)>> = bytes
+
+    int
+    |> Math.expand(2)
+    |> Stream.chunk(2)
+    |> Stream.map(&List.to_tuple/1)
+    |> Enum.unzip
+    |> Tuple.to_list
+    |> Enum.map(&Math.collapse(&1, 2))
+    |> List.to_tuple
+  end
 end
